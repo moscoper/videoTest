@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72BF2F141F3C09CA00BE8D9F /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72BF2F131F3C09CA00BE8D9F /* libmp3lame.a */; };
+		72BF2F161F3C0A1F00BE8D9F /* libtheora.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72BF2F151F3C0A1F00BE8D9F /* libtheora.a */; };
+		72BF2F191F3C0A4800BE8D9F /* libvorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72BF2F171F3C0A4800BE8D9F /* libvorbis.a */; };
+		72BF2F1A1F3C0A4800BE8D9F /* libvorbisenc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72BF2F181F3C0A4800BE8D9F /* libvorbisenc.a */; };
+		72BF2F1D1F3C0A7200BE8D9F /* libx265.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72BF2F1B1F3C0A7200BE8D9F /* libx265.a */; };
+		72BF2F1E1F3C0A7200BE8D9F /* libxvidcore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72BF2F1C1F3C0A7200BE8D9F /* libxvidcore.a */; };
 		72CAC44D1EF6115C00541A77 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 72CAC44C1EF6115C00541A77 /* main.c */; };
 		72CAC4571EF612AC00541A77 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72CAC4561EF612AC00541A77 /* CoreVideo.framework */; };
 		72CAC4591EF612C000541A77 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72CAC4581EF612C000541A77 /* CoreFoundation.framework */; };
@@ -46,6 +52,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		72BF2F131F3C09CA00BE8D9F /* libmp3lame.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmp3lame.a; path = ../../../../../usr/local/Cellar/lame/3.99.5/lib/libmp3lame.a; sourceTree = "<group>"; };
+		72BF2F151F3C0A1F00BE8D9F /* libtheora.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtheora.a; path = ../../../../../usr/local/Cellar/theora/1.1.1/lib/libtheora.a; sourceTree = "<group>"; };
+		72BF2F171F3C0A4800BE8D9F /* libvorbis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbis.a; path = ../../../../../usr/local/Cellar/libvorbis/1.3.5_1/lib/libvorbis.a; sourceTree = "<group>"; };
+		72BF2F181F3C0A4800BE8D9F /* libvorbisenc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbisenc.a; path = ../../../../../usr/local/Cellar/libvorbis/1.3.5_1/lib/libvorbisenc.a; sourceTree = "<group>"; };
+		72BF2F1B1F3C0A7200BE8D9F /* libx265.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libx265.a; path = ../../../../../usr/local/Cellar/x265/2.5/lib/libx265.a; sourceTree = "<group>"; };
+		72BF2F1C1F3C0A7200BE8D9F /* libxvidcore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libxvidcore.a; path = ../../../../../usr/local/Cellar/xvid/1.3.4/lib/libxvidcore.a; sourceTree = "<group>"; };
 		72CAC4491EF6115C00541A77 /* video_decode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = video_decode; sourceTree = BUILT_PRODUCTS_DIR; };
 		72CAC44C1EF6115C00541A77 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		72CAC4541EF6129600541A77 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -79,6 +91,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72BF2F1D1F3C0A7200BE8D9F /* libx265.a in Frameworks */,
+				72BF2F1E1F3C0A7200BE8D9F /* libxvidcore.a in Frameworks */,
+				72BF2F191F3C0A4800BE8D9F /* libvorbis.a in Frameworks */,
+				72BF2F1A1F3C0A4800BE8D9F /* libvorbisenc.a in Frameworks */,
+				72BF2F161F3C0A1F00BE8D9F /* libtheora.a in Frameworks */,
+				72BF2F141F3C09CA00BE8D9F /* libmp3lame.a in Frameworks */,
 				72CAC4821EF644A600541A77 /* Security.framework in Frameworks */,
 				72CAC4831EF644A600541A77 /* SecurityFoundation.framework in Frameworks */,
 				72CAC47F1EF631A000541A77 /* libvpx.a in Frameworks */,
@@ -136,6 +154,12 @@
 		72CAC4531EF6129600541A77 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				72BF2F1B1F3C0A7200BE8D9F /* libx265.a */,
+				72BF2F1C1F3C0A7200BE8D9F /* libxvidcore.a */,
+				72BF2F171F3C0A4800BE8D9F /* libvorbis.a */,
+				72BF2F181F3C0A4800BE8D9F /* libvorbisenc.a */,
+				72BF2F151F3C0A1F00BE8D9F /* libtheora.a */,
+				72BF2F131F3C09CA00BE8D9F /* libmp3lame.a */,
 				72CAC4801EF644A600541A77 /* Security.framework */,
 				72CAC4811EF644A600541A77 /* SecurityFoundation.framework */,
 				72CAC47E1EF631A000541A77 /* libvpx.a */,
@@ -326,6 +350,11 @@
 					/usr/local/Cellar/x264/r2601/lib,
 					/usr/local/Cellar/opus/1.1.2/lib,
 					/usr/local/Cellar/libvpx/1.5.0/lib,
+					/usr/local/Cellar/lame/3.99.5/lib,
+					/usr/local/Cellar/theora/1.1.1/lib,
+					/usr/local/Cellar/libvorbis/1.3.5_1/lib,
+					/usr/local/Cellar/x265/2.5/lib,
+					/usr/local/Cellar/xvid/1.3.4/lib,
 				);
 				"LIBRARY_SEARCH_PATHS[arch=*]" = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -342,6 +371,11 @@
 					/usr/local/Cellar/x264/r2601/lib,
 					/usr/local/Cellar/opus/1.1.2/lib,
 					/usr/local/Cellar/libvpx/1.5.0/lib,
+					/usr/local/Cellar/lame/3.99.5/lib,
+					/usr/local/Cellar/theora/1.1.1/lib,
+					/usr/local/Cellar/libvorbis/1.3.5_1/lib,
+					/usr/local/Cellar/x265/2.5/lib,
+					/usr/local/Cellar/xvid/1.3.4/lib,
 				);
 				"LIBRARY_SEARCH_PATHS[arch=*]" = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -368,6 +402,7 @@
 				72CAC4521EF6115C00541A77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

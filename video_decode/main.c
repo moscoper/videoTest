@@ -88,23 +88,21 @@ int encode(AVCodecContext *pCodecCtx,AVPacket *pPkt,AVFrame *pFrame,int *got_pac
 }
 
 int main(int argc, const char * argv[]) {
-    char filename[] = "/Users/cuifei/Documents/video_images/te.mov";
+    char filename[] = "/Users/edz/Documents/testvideo/test2.mov";
     char *imageFilePath;
     const AVCodec *codec;
-//    AVCodecParserContext *parser;
+
     AVCodecContext *pCodecCtx = NULL;
     AVCodec *inputCodec;
     AVCodecContext *inputCodecContext;
     AVFormatContext *avFormatContext;
     AVStream *avStream;
     AVFormatContext *inputAVFormateContext;
-//    FILE *f;
+
     AVFrame *frame;
-//    uint8_t inbuf[INBUF_SIZE + AV_INPUT_BUFFER_PADDING_SIZE];
-//    uint8_t *data;
-//    size_t data_size;
+
     
-int ret,got_picture;
+    int ret,got_picture;
     int videoIndex = -1;
     int i;
     AVPacket *pkt;
@@ -114,15 +112,15 @@ int ret,got_picture;
     AVCodec *outCodec;
     AVCodecContext * outCodecContext;
     struct SwsContext *img_convert_ctx;
-    imageFilePath = "/Users/cuifei/Documents/video_images/";
+    imageFilePath = "/Users/edz/Documents/testvideo/video_images/test";
     
-//    avcodec_register_all();
     av_register_all();
     avformat_network_init();
-//    inputAVFormateContext =avformat_alloc_context();
-//    avFormatContext = avformat_alloc_context();
-    avformat_alloc_output_context2(&avFormatContext, NULL, NULL, filename);
+    inputAVFormateContext = avformat_alloc_context();
+    avFormatContext = avformat_alloc_context();
+    
 //    avStream = avformat_new_stream(avFormatContext, NULL);
+    avformat_alloc_output_context2(&avFormatContext, NULL, NULL, filename);
     codec = avcodec_find_encoder(AV_CODEC_ID_H264);
     
     pCodecCtx = avcodec_alloc_context3(codec);
@@ -162,7 +160,7 @@ int ret,got_picture;
 //    avStream->codec->pix_fmt = AV_PIX_FMT_YUV420P;
 //    avStream->codec->codec_tag = 0;
    
-    if (avcodec_open2(pCodecCtx, codec, &dicParams)< 0) {
+    if(avcodec_open2(pCodecCtx, codec, &dicParams)< 0) {
         printf("avcodec open error");
         exit(1);
     }
@@ -198,7 +196,7 @@ int ret,got_picture;
         if (!pkt) {
             exit(1);
         }
-    char imageFilename[50];
+    char imageFilename[150];
     frame = av_frame_alloc();
     int y_length = 848*480;
     int uv_length = y_length/4;
@@ -210,6 +208,7 @@ int ret,got_picture;
     inputFrame = av_frame_alloc();
     for (i = 1; i <= 848; i++) {
         sprintf(imageFilename, "%s%d.jpg",imageFilePath,i);
+      
         inputAVFormateContext = avformat_alloc_context();
         ret= avformat_open_input(&inputAVFormateContext, imageFilename, NULL, NULL);
         printf("i= %d \n",i);
@@ -278,7 +277,7 @@ int ret,got_picture;
             }
         }
         
-        
+    
         
         //=========
 //        FILE *f = fopen(imageFilename, "rb");
@@ -324,208 +323,147 @@ int ret,got_picture;
     }
     avformat_free_context(avFormatContext);
     
+
     
+   /**
+    拆视频
+    */
+   /**ret = avformat_open_input(&avFormatContext, filename, NULL , NULL);
+    if (ret != 0) {
+        printf("Couldn't open input stream.\n");
+        exit(1);
+    }
     
+    ret = avformat_find_stream_info(avFormatContext, NULL);
+    if (ret < 0) {
+        printf("Couldn't find stream information.\n");
+        exit(1);
+    }
+    for (i = 0; i< avFormatContext->nb_streams; i++) {
+        if (avFormatContext->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+            videoIndex = i;
+            break;
+        }
+    }
     
-//    ret = avformat_open_input(&avFormatContext, filename, NULL , NULL);
-//    if (ret != 0) {
-//        printf("Couldn't open input stream.\n");
-//        exit(1);
-//    }
-//    
-//    ret = avformat_find_stream_info(avFormatContext, NULL);
-//    if (ret < 0) {
-//        printf("Couldn't find stream information.\n");
-//        exit(1);
-//    }
-//    for (i = 0; i< avFormatContext->nb_streams; i++) {
-//        if (avFormatContext->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
-//            videoIndex = i;
-//            break;
-//        }
-//    }
-//    
-//    if(videoIndex==-1){
-//        printf("Didn't find a video stream.\n");
-//        return -1;
-//    }
-//    
-//    c = avFormatContext->streams[videoIndex]->codec;
-//    
-//    codec = avcodec_find_decoder(c->codec_id);
-//    
-//    outCodec = avcodec_find_encoder(AV_CODEC_ID_MJPEG);
-//    if (!outCodec)
-//    {
-//        printf("Call avcodec_find_encoder function failed!\n");
-//        return 0;
-//    }
-//    
-//    outCodecContext = avcodec_alloc_context3(outCodec);
-//    if (!outCodecContext)
-//    {
-//        printf("Call avcodec_alloc_context3 function failed!\n");
-//        return 0;
-//    }
-//    
-//    outCodecContext->codec_type = AVMEDIA_TYPE_VIDEO;
-//    outCodecContext->pix_fmt = AV_PIX_FMT_YUVJ420P;
-//    
-//    ret = avcodec_open2(c, codec, NULL);
-//    if (ret < 0) {
-//        printf("Could not open codec.\n");
-//        exit(1);
-//    }
-//    
-//    pkt = av_packet_alloc();
+    if(videoIndex==-1){
+        printf("Didn't find a video stream.\n");
+        return -1;
+    }
+    
+    AVCodecContext *c = avFormatContext->streams[videoIndex]->codec;
+    
+    codec = avcodec_find_decoder(c->codec_id);
+    
+    outCodec = avcodec_find_encoder(AV_CODEC_ID_MJPEG);
+    if (!outCodec)
+    {
+        printf("Call avcodec_find_encoder function failed!\n");
+        return 0;
+    }
+    
+    outCodecContext = avcodec_alloc_context3(outCodec);
+    if (!outCodecContext)
+    {
+        printf("Call avcodec_alloc_context3 function failed!\n");
+        return 0;
+    }
+    
+    outCodecContext->codec_type = AVMEDIA_TYPE_VIDEO;
+    outCodecContext->pix_fmt = AV_PIX_FMT_YUVJ420P;
+    
+    ret = avcodec_open2(c, codec, NULL);
+    if (ret < 0) {
+        printf("Could not open codec.\n");
+        exit(1);
+    }
+    
+    pkt = av_packet_alloc();
+    if (!pkt) {
+        exit(1);
+    }
+    AVPacket outPkt;
+    
+    av_init_packet(&outPkt);
 //    if (!pkt) {
 //        exit(1);
 //    }
-//    
-//    av_init_packet(&outPkt);
-////    if (!pkt) {
-////        exit(1);
-////    }
+
+    frame = av_frame_alloc();
+    
+    int n = 0;
+    
+    outCodecContext->width = avFormatContext->streams[videoIndex]->codec->width;
+    outCodecContext->height = avFormatContext->streams[videoIndex]->codec->height;
+    
+    outCodecContext->time_base.num = c->time_base.num;
+    outCodecContext->time_base.den = c->time_base.den;
+    
+    ret = avcodec_open2(outCodecContext, outCodec, NULL);
+    if (ret < 0) {
+        printf("Could not open outcodec.\n");
+        exit(1);
+    }
+    
+    char dstFileName[150] ={0};
+    char* outfilename ="/Users/edz/Documents/testvideo//video_images/test";
+    
+    while (av_read_frame(avFormatContext, pkt) ==0) {
+        if (pkt->stream_index == videoIndex ) {
+            ret = avcodec_decode_video2(c, frame, &got_picture, pkt);
+    
+            if(ret < 0){
+                printf("Decode Error.\n");
+                return -1;
+            }
+            
+            if (got_picture) {
+                
+                  n++;
+                av_new_packet(&outPkt, outCodecContext->width * outCodecContext->height *3);
+                ret = avcodec_encode_video2(outCodecContext, &outPkt, frame, &got_picture);
+                
+                if(ret < 0)
+                {
+                    printf("Encode Error.\n");
+                    avcodec_close(outCodecContext);
+                    av_free(outCodecContext);
+                    av_free_packet(&outPkt);
+                    exit(1);
+                }
+                
+                if (got_picture) {
+                
+                    
+                    sprintf(dstFileName,"%s%d.jpg",outfilename,n);
+                    printf("dstFileName=%s\n",dstFileName);
+                        FILE *f = fopen(dstFileName, "wb");
+                    printf("outPkt.size=%s\n",dstFileName);
+
+                        fwrite(outPkt.data, sizeof(uint8_t), outPkt.size, f);
+                        
+                        fclose(f);
+                        av_free_packet(&outPkt);
+                
+                   
+                }
+//                n++;
+//                                char buf[1024];
+//                sprintf(buf, "%s%d.jpg",outfilename,n);
+//                    pgm_save(frame->data[0], frame->linesize[0], frame->width, frame->height, buf);
+//                    FILE *f = fopen(buf, "wb");
+//                    fwrite(frame->data[0], c->width*c->height*3, 1, f);
 //
-//    frame = av_frame_alloc();
-//    
-//    int n = 0;
-//    
-//    outCodecContext->width = avFormatContext->streams[videoIndex]->codec->width;
-//    outCodecContext->height = avFormatContext->streams[videoIndex]->codec->height;
-//    
-//    outCodecContext->time_base.num = c->time_base.num;
-//    outCodecContext->time_base.den = c->time_base.den;
-//    
-//    ret = avcodec_open2(outCodecContext, outCodec, NULL);
-//    if (ret < 0) {
-//        printf("Could not open outcodec.\n");
-//        exit(1);
-//    }
-//    
-//    char dstFileName[150] ={0};
-//    
-//    while (av_read_frame(avFormatContext, pkt) ==0) {
-//        if (pkt->stream_index == videoIndex ) {
-//            ret = avcodec_decode_video2(c, frame, &got_picture, pkt);
-//    
-//            if(ret < 0){
-//                printf("Decode Error.\n");
-//                return -1;
-//            }
-//            
-//            if (got_picture) {
-//                
-//                  n++;
-//                av_new_packet(&outPkt, outCodecContext->width * outCodecContext->height *3);
-//                ret = avcodec_encode_video2(outCodecContext, &outPkt, frame, &got_picture);
-//                
-//                if(ret < 0)
-//                {
-//                    printf("Encode Error.\n");
-//                    avcodec_close(outCodecContext);
-//                    av_free(outCodecContext);
-//                    av_free_packet(&outPkt);
-//                    exit(1);
-//                }
-//                
-//                if (got_picture) {
-//                
+//                    fwrite(pkt->data, sizeof(uint8_t), pkt->size, f);
 //                    
-//                    sprintf(dstFileName,"%s%d.jpg",outfilename,n);
-//                        FILE *f = fopen(dstFileName, "wb");
-//                        
-//                        fwrite(outPkt.data, sizeof(uint8_t), outPkt.size, f);
-//                        
-//                        fclose(f);
-//                        av_free_packet(&outPkt);
-//                
-//                   
-//                }
-////                n++;
-////                                char buf[1024];
-////                sprintf(buf, "%s%d.jpg",outfilename,n);
-////                    pgm_save(frame->data[0], frame->linesize[0], frame->width, frame->height, buf);
-////                    FILE *f = fopen(buf, "wb");
-////                    fwrite(frame->data[0], c->width*c->height*3, 1, f);
-////
-////                    fwrite(pkt->data, sizeof(uint8_t), pkt->size, f);
-////                    
-////                     fclose(f);
-//                
-//               
-//            }
-//        }
-//    }
-//    
-//    
-//    
-////    memset(inbuf + INBUF_SIZE, 0, AV_INPUT_BUFFER_PADDING_SIZE);
-////    
-////    codec = avcodec_find_decoder(AV_CODEC_ID_MPEG1VIDEO);
-////
-////    if (!codec) {
-////        fprintf(stderr, "Codec not found\n");
-////        exit(1);
-////    }
-////    
-////    parser = av_parser_init(codec->id);
-////    if (!parser) {
-////        fprintf(stderr, "parser not found\n");
-////        exit(1);
-////    }
-////    
-////    c = avcodec_alloc_context3(codec);
-////    
-////    if (!c) {
-////        fprintf(stderr, "Could not allocate video codec context\n");
-////        exit(1);
-////    }
-////    if (avcodec_open2(c, codec, NULL)) {
-////        fprintf(stderr, "Could not open codec\n");
-////        exit(1);
-////    }
-////    f = fopen(filename, "rb");
-////    if (!f) {
-////        fprintf(stderr, "Could not open %s\n", filename);
-////        exit(1);
-////    }
-////    
-////    frame = av_frame_alloc();
-////    
-////    if (!frame) {
-////        fprintf(stderr, "Could not allocate video frame\n");
-////        exit(1);
-////    }
-////    
-////    while (!feof(f)) {
-////        data_size = fread(inbuf, 1, INBUF_SIZE, f);
-////        if (!data_size) {
-////            break;
-////        }
-////        
-////        data = inbuf;
-////        while (data_size > 0) {
-////            ret= av_parser_parse2(parser, c, &pkt->data, &pkt->size, data, data_size, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
-////            if (ret < 0) {
-////                fprintf(stderr, "Error while parsing\n");
-////                exit(1);
-////            }
-////            data      += ret;
-////            data_size -= ret;
-////            if (pkt->size)
-////                decode(c, frame, pkt, outfilename);
-////        }
-////    }
-////    decode(c, frame, NULL, outfilename);
-////    fclose(f);
-////    av_parser_close(parser);
-//    avcodec_free_context(&c);
-//    av_frame_free(&frame);
-//    av_free(avFormatContext);
-////    avformat_close_input(&avFormatContext);
-////
-////    av_packet_free(&pkt);
+//                     fclose(f);
+                
+               
+            }
+        }
+    
+    }*/
+    
     
     return 0;
 }
